@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games</title>
+    <style>
+        body {
+            background-color: lightblue; 
+            font-family: Arial, Helvetica, sans-serif;  
+        }
+
+        .btn {
+            color: lightblue;
+            background-color: black;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            width: 200px;  
+            height: 50px;  
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            text-align: center;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h1>TicTacToe</h1>
+        <button type="button" class="btn" onclick='start_game()' id="homeBtn">Start a game</button>
+        <button type="button" class="btn" onclick='join_game()' id="homeBtn">Join a game</button>
+    </div> 
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var socket = io()
+        function start_game() {
+            let game_id = Math.random().toString(36).substring(7)
+            socket.emit('ttt_start', {'game_id' : game_id})
+            window.location.href = '/games/ttt?game_id=' + game_id
+        }
+        function join_game() {
+
+        }
+    </script>
+</body>
+</html>

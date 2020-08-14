@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games</title>
+    <style>
+        body {
+            background-color: lightblue; 
+            font-family: Arial, Helvetica, sans-serif;  
+        }
+
+        .btn {
+            color: lightblue;
+            background-color: black;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            width: 200px;  
+            height: 50px;  
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            text-align: center;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h1>Mini Games</h1>
+        <button type="button" class="btn" onclick='document.location.href = "/games"' id="homeBtn">Play</button>
+        <button type="button" class="btn" onclick='document.location.href = "/options"' id="homeBtn">Options</button>
+    </div>    
+</body>
+</html>
