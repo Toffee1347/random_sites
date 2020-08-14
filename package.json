@@ -1,5 +1,5 @@
 {
-  "name": "coolnodeapp",
+  "name": "random_sites",
   "version": "1.0.0",
   "description": "node app ",
   "main": "app.js",
@@ -8,13 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Toffee1347/random_sites"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
   "homepage": "",
   "dependencies": {
     "express": "^4.15.2",
