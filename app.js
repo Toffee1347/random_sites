@@ -29,11 +29,12 @@ app.get('*', (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('ttt_start', (data) => {
+        print('recived!')
       console.log(data.game_id);
     });
   });
 
-http.listen(80, () => {
+http.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
