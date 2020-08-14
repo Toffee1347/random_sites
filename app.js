@@ -32,9 +32,28 @@ app.get('*', (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('ttt_start', (data) => {
-        print('recived!')
-      console.log(data.game_id);
+        eval(`
+            game_data.ttt = {
+                ${data.game_id} : {
+                    grid : [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                    game_status : 'waiting_for_player_one',
+                    players_go : null
+            }}
+        `)
     });
+    socket.on('ttt_join', (data) => {
+        let query = eval(`game_data.ttt.${data.game_id}.game_status == 'waiting_for_player_one'`)
+        let query_two = eval(`game_data.ttt.${data.game_id}.game_status == 'waiting_for_player_two'`)
+        if (query) {
+            eval(`game_data.ttt.${data.game_id}.game_status = 'waiting_for_player_two'`)
+            io.emit('ttt_waiting_for_player_two', {'game_id':data.game_id})
+        }
+        else if (query_two) {
+            eval(`game_data.ttt.${data.game_id}.game_status = 'game_started'`)
+            eval(`game_data.ttt.${data.game_id}.players_go = 0`)
+            io.emit('ttt_game_start', {'game_id':data.game_id})
+        }
+    })
   });
 
 const PORT = process.env.PORT || 3000;
@@ -45,3 +64,5 @@ http.listen(PORT, () => {
 function print(message) {
     console.log(message)
 }
+
+let game_data = {}

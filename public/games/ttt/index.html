@@ -44,14 +44,20 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
+        let game_id
         var socket = io()
-        function start_game() {
-            let game_id = Math.random().toString(36).substring(7)
+        async function start_game() {
+            await generate_code()
             socket.emit('ttt_start', {'game_id' : game_id})
-            window.location.href = '/games/ttt?game_id=' + game_id
+            window.location.href = '/games/ttt/game?game_id=' + game_id
         }
         function join_game() {
 
+        }
+        function generate_code() {
+            game_id = Math.random().toString(36).substring(7)
+            console.log(Number.isInteger(parseInt(game_id.substring(0, 1))))
+            if (Number.isInteger(game_id.substring(0, 1))) generate_code()
         }
     </script>
 </body>

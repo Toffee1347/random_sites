@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games</title>
+    <style>
+        body {
+            background-color: lightblue; 
+            font-family: Arial, Helvetica, sans-serif;  
+        }
+
+        .btn {
+            color: lightblue;
+            background-color: black;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            width: 200px;  
+            height: 50px;  
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            text-align: center;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        td {
+            border: 1px solid black;
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h1 id="title"></h1>
+        <table id="grid">
+            <tr>
+                <td id="td_1"> </td>
+                <td id="td_2"> </td>
+                <td id="td_3"> </td>
+            </tr>
+            <tr>
+                <td id="td_4"> </td>
+                <td id="td_5"> </td>
+                <td id="td_6"> </td>
+            </tr>
+            <tr>
+                <td id="td_7"> </td>
+                <td id="td_8"> </td>
+                <td id="td_9"> </td>
+            </tr>
+        </table>
+    </div> 
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $('#grid').hide()
+        var socket = io()
+        const urlParams = new URLSearchParams(window.location.search)
+        let game_id = urlParams.get('game_id')
+        if (!game_id) {
+            window.location.href = "http://" + window.location.hostname + '/games/ttt'
+        }
+        else {
+            socket.emit('ttt_join', {'game_id':game_id})
+        }
+        socket.on('ttt_waiting_for_player_two', (data) => {
+            if (data.game_id != game_id) return
+            document.getElementById('title').innerHTML = 'Waiting for player two'
+        })
+        socket.on('ttt_game_start', (data) => {
+            if (data.game_id != game_id) return
+            document.getElementById('title').innerHTML = 'Game starting'
+            $('#grid').show()
+        })
+    </script>
+</body>
+</html>
