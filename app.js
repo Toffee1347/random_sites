@@ -7,22 +7,25 @@ app.get('*', (req, res) => {
     let file
     let url = req.url.split('?')
     if (url[0].endsWith('/index.html')) {
-        file = __dirname + '/public' + url[0]
+        file = './public' + url[0]
     } 
     else if (url[0].endsWith('/index.html/')) {
-        file = __dirname + '/public' + url[0].substring(0, url[0].length - 1)
+        file = './public' + url[0].substring(0, url[0].length - 1)
     } 
     else {
-        file = __dirname + '/public' + url[0] + '/index.html'
+        file = './public' + url[0] + '/index.html'
     }
-    fs.readFile(file, function(error, data) {
+    fs.readFile(file, 'utf8', function(error, data) {
         if (error) {
             res.statusCode = 404
-            res.sendFile(__dirname + '/public/404error.html', 404);
+            fs.readFile('./public/404error.html', 'utf8', function(error, data) {
+                if (error)  return res.send('<h1>Major Error, Please contact the site owner</h1>')
+                res.send(data);
+            })
         }
         else {
             res.statusCode = 200
-            res.sendFile(file);
+            res.send(data);
         }
     })
   });
