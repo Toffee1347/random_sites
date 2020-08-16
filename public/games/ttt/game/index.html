@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Games</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
         body {
-            background-color: lightblue; 
+            background-color: lightskyblue; 
             font-family: Arial, Helvetica, sans-serif;  
         }
 
         .btn {
-            color: lightblue;
-            background-color: black;
+            color: lightskyblue;
             border: none;
             padding: 15px 32px;
             text-align: center;
@@ -22,6 +22,7 @@
             cursor: pointer;
             width: 200px;  
             height: 50px;  
+            margin: 10px;
         }
 
         .center {
@@ -41,8 +42,11 @@
     </style>
 </head>
 <body>
+    <div style="float: right;">
+        <img id='qrcode'>
+    </div>
     <div class="center">
-        <h1 id="title"></h1>
+        <h1 id="title"  style="color: #337AB7;"></h1>
         <table id="grid">
             <tr>
                 <td id="td_1"> </td>
@@ -75,6 +79,7 @@
             socket.emit('ttt_join', {'game_id':game_id})
         }
         socket.on('ttt_waiting_for_player_two', (data) => {
+            document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
             if (data.game_id != game_id) return
             document.getElementById('title').innerHTML = 'Waiting for player two'
         })
