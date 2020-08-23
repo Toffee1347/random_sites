@@ -48,7 +48,7 @@
     </div> 
     <script>
         function add_cookie_color(color) {
-            document.cookie = "bgcolor=" + color + "; path=/";
+            document.cookie = "bgcolor=" + color + "; path=/; Set-Cookie: flavor=choco; SameSite=Strict;";
             window.location.href = '/options'
         }
         function getCookie(cname) {
@@ -69,6 +69,10 @@
         function onload() {
             if (getCookie('bgcolor')) {
                 document.body.style.background = getCookie('bgcolor')
+                document.getElementById('myColor').value = getCookie('bgcolor')
+            }
+            else {
+                document.getElementById('myColor').value = '#87CEFA'
             }
         }
     </script>   

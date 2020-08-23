@@ -49,7 +49,7 @@
 </head>
 <body onload="onload()">
     <div style="float: right;">
-        <img id='qrcode'>
+        <img id='qrcode' style="margin-top: 10px; margin-right: 10px;">
     </div>
     <div class="center">
         <h1 id="title" style="color: #337AB7; text-align: center;"></h1>
@@ -75,6 +75,7 @@
     </div> 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        let rbg
         let player = 2
         let game_data
         $('#grid').hide()
@@ -93,7 +94,13 @@
         socket.on('ttt_waiting_for_player_two', (data) => {
             player = 1
             if (data.game_id != game_id) return
-            document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?bgcolor=135-206-250&size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
+            if (getCookie('bgcolor')) {
+                rbg = hexToRgb(getCookie('bgcolor'))
+                document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?bgcolor=' + rbg.r + '-' + rbg.b + '-' + rbg.g + '&size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
+            }
+            else {
+                document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?bgcolor=135-206-250&size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
+            }
             document.getElementById('title').innerHTML = 'Waiting for player two'
             document.getElementById('id').innerHTML = 'Game ID = ' + game_id
         })
@@ -159,6 +166,14 @@
             }
         }
         add_onclick_functions()
+        function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+        }
     </script> 
     <script>
         function getCookie(cname) {
