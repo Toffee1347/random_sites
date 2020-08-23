@@ -39,7 +39,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="onload()">
     <div class="center">
         <h1 style="color: #337AB7;">TicTacToe</h1>
         <button type="button" class="btn btn-primary" onclick='start_game()' id="homeBtn">Start a game</button>
@@ -55,7 +55,7 @@
             window.location.href = '/games/ttt/game?game_id=' + game_id
         }
         function join_game() {
-
+            window.location.href = '/games/ttt/join_game'
         }
         function generate_code() {
         game_id = '0'
@@ -63,6 +63,29 @@
             game_id = Math.random().toString(36).substring(7)
         }
         }
-    </script>
+        
+    </script> 
+    <script>
+        function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return false;
+        }
+        function onload() {
+            if (getCookie('bgcolor')) {
+                document.body.style.background = getCookie('bgcolor')
+            }
+        }
+    </script>  
 </body>
 </html>

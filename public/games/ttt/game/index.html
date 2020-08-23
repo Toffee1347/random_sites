@@ -47,12 +47,13 @@
         }
     </style>
 </head>
-<body>
+<body onload="onload()">
     <div style="float: right;">
         <img id='qrcode'>
     </div>
     <div class="center">
-        <h1 id="title"  style="color: #337AB7; text-align: center;"></h1>
+        <h1 id="title" style="color: #337AB7; text-align: center;"></h1>
+        <h2 id="id" style="color: #337AB7; text-align: center;"></h2>
         <br/>
         <table id="grid">
             <tr>
@@ -83,6 +84,9 @@
         if (!game_id) {
             no_params()
         }
+        else if (Number.isInteger(parseInt(game_id.substring(0, 1)))) {
+            no_params()
+        }
         else {
             socket.emit('ttt_join', {'game_id':game_id})
         }
@@ -91,25 +95,28 @@
             if (data.game_id != game_id) return
             document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?bgcolor=135-206-250&size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
             document.getElementById('title').innerHTML = 'Waiting for player two'
+            document.getElementById('id').innerHTML = 'Game ID = ' + game_id
         })
         socket.on('ttt_game_play', (data) => {
             if (data.game_data.game_id != game_id) return
             game_data = data.game_data
             document.getElementById('qrcode').src = ''
+            document.getElementById('title').innerHTML = ""
+            document.getElementById('id').innerHTML = ''
             if (player == 1) {
                 if (data.game_data.players_go % 2 == 0) {
-                    document.getElementById('title').innerHTML = "Your turn"
+                    document.title = 'Your turn'
                 }
                 else {
-                    document.getElementById('title').innerHTML = "Your opponents turn"
+                    document.title = "Your opponents turn"
                 }
             }
             else if (player == 2) {
                 if (data.game_data.players_go % 2 == 0) {
-                    document.getElementById('title').innerHTML = "Your opponents turn"
+                    document.title = "Your opponents turn"
                 }
                 else {
-                    document.getElementById('title').innerHTML = "Your turn"
+                    document.title = "Your turn"
                 }
             }
             update_grid(data.game_data.grid)
@@ -152,6 +159,28 @@
             }
         }
         add_onclick_functions()
-    </script>
+    </script> 
+    <script>
+        function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return false;
+        }
+        function onload() {
+            if (getCookie('bgcolor')) {
+                document.body.style.background = getCookie('bgcolor')
+            }
+        }
+    </script>  
 </body>
 </html>

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Games</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body {
             background-color: lightskyblue; 
@@ -40,12 +40,17 @@
     </style>
 </head>
 <body onload="onload()">
-    <div class="center"> 
-        <h1 style="color: #337AB7;">Mini Games</h1>
-        <button type="button" class="btn btn-primary" onclick='document.location.href = "/games"' id="homeBtn">Play</button>
-        <button type="button" class="btn btn-primary" onclick='document.location.href = "/options"' id="homeBtn">Options</button>
+    <div class="center">
+        <h1 style="color: #337AB7;">Color</h1>
+        <input class='btn btn-primary' type="color" id="myColor">
+        <button type="button" class="btn btn-primary" onclick="add_cookie_color(document.getElementById('myColor').value)">Apply</button>
+        <button type="button" class="btn btn-primary" onclick='document.cookie = "bgcolor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; window.location.href = "/options"'>Reset</button>
     </div> 
     <script>
+        function add_cookie_color(color) {
+            document.cookie = "bgcolor=" + color + "; path=/";
+            window.location.href = '/options'
+        }
         function getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
@@ -66,6 +71,6 @@
                 document.body.style.background = getCookie('bgcolor')
             }
         }
-    </script>
+    </script>   
 </body>
 </html>

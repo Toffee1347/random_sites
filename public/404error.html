@@ -39,10 +39,32 @@
         }
     </style>
 </head>
-<body>
+<body onload="onload()">
     <div class="center">
         <h1 style="color: #337AB7;">ERROR: 404<br/>No Such Directory found</h1>
         <button type="button" class="btn btn-primary" onclick='document.location.href = "http://" + window.location.hostname' id="homeBtn">Go Home</button>
-    </div>    
+    </div> 
+    <script>
+        function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return false;
+        }
+        function onload() {
+            if (getCookie('bgcolor')) {
+                document.body.style.background = getCookie('bgcolor')
+            }
+        }
+    </script>   
 </body>
 </html>
