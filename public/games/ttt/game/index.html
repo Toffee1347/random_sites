@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Games</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body {
             background-color: lightskyblue; 
@@ -36,8 +39,11 @@
         }
         td {
             border: 1px solid black;
-            height: 50px;
-            width: 50px;
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: xxx-large;
         }
     </style>
 </head>
@@ -46,7 +52,8 @@
         <img id='qrcode'>
     </div>
     <div class="center">
-        <h1 id="title"  style="color: #337AB7;"></h1>
+        <h1 id="title"  style="color: #337AB7; text-align: center;"></h1>
+        <br/>
         <table id="grid">
             <tr>
                 <td id="td_1"> </td>
@@ -66,28 +73,85 @@
         </table>
     </div> 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
+        let player = 2
+        let game_data
         $('#grid').hide()
         var socket = io()
         const urlParams = new URLSearchParams(window.location.search)
         let game_id = urlParams.get('game_id')
         if (!game_id) {
-            window.location.href = "http://" + window.location.hostname + '/games/ttt'
+            no_params()
         }
         else {
             socket.emit('ttt_join', {'game_id':game_id})
         }
         socket.on('ttt_waiting_for_player_two', (data) => {
-            document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
+            player = 1
             if (data.game_id != game_id) return
+            document.getElementById('qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?bgcolor=135-206-250&size=150x150&data=http://' + window.location.hostname + '/games/ttt/game?game_id=' + game_id
             document.getElementById('title').innerHTML = 'Waiting for player two'
         })
-        socket.on('ttt_game_start', (data) => {
-            if (data.game_id != game_id) return
-            document.getElementById('title').innerHTML = 'Game starting'
+        socket.on('ttt_game_play', (data) => {
+            if (data.game_data.game_id != game_id) return
+            game_data = data.game_data
+            document.getElementById('qrcode').src = ''
+            if (player == 1) {
+                if (data.game_data.players_go % 2 == 0) {
+                    document.getElementById('title').innerHTML = "Your turn"
+                }
+                else {
+                    document.getElementById('title').innerHTML = "Your opponents turn"
+                }
+            }
+            else if (player == 2) {
+                if (data.game_data.players_go % 2 == 0) {
+                    document.getElementById('title').innerHTML = "Your opponents turn"
+                }
+                else {
+                    document.getElementById('title').innerHTML = "Your turn"
+                }
+            }
+            update_grid(data.game_data.grid)
             $('#grid').show()
+            $('#qrcode').hide()
         })
+        socket.on('ttt_no_game', (data) => {
+            window.location.href = "http://" + window.location.hostname + '/games/ttt'
+        })
+        function no_params() {
+            window.location.href = "http://" + window.location.hostname + '/games/ttt'
+        }
+        function update_grid(data) {
+            for (let i in grid) {
+                grid[i].innerHTML = data[i]
+            }
+        }
+
+        const td_grid = [
+            'td_1', 'td_2', 'td_3',
+            'td_4', 'td_5', 'td_6',
+            'td_7', 'td_8', 'td_9'
+        ]
+        const grid = []
+        for (let i in td_grid) {
+            grid[i] = document.getElementById(td_grid[i])
+        }
+        function add_onclick_functions() {
+            for (let i in grid) {
+                grid[i].addEventListener('click', function() {
+                    if (player == 1) {
+                        if (game_data.players_go % 2 != 0) return
+                        socket.emit('ttt_player_one_move', {'game_data':game_data, 'move':i})
+                    }
+                    else if (player == 2) {
+                        if (game_data.players_go % 2 != 1) return
+                        socket.emit('ttt_player_two_move', {'game_data':game_data, 'move':i})
+                    }
+                })
+            }
+        }
+        add_onclick_functions()
     </script>
 </body>
 </html>

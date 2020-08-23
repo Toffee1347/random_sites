@@ -2,6 +2,7 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var fs = require('fs')
+let data_to_send
 
 app.get('*', (req, res) => {
     let file
@@ -37,11 +38,16 @@ io.on('connection', (socket) => {
                 ${data.game_id} : {
                     grid : [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
                     game_status : 'waiting_for_player_one',
-                    players_go : null
+                    players_go : null,
+                    game_id : '${data.game_id}'
             }}
         `)
     });
     socket.on('ttt_join', (data) => {
+        if (typeof(eval(`game_data.ttt.${data.game_id}`)) === 'undefined') {
+            socket.emit('ttt_no_game', {'game_id':data.game_id})
+            return
+        }
         let query = eval(`game_data.ttt.${data.game_id}.game_status == 'waiting_for_player_one'`)
         let query_two = eval(`game_data.ttt.${data.game_id}.game_status == 'waiting_for_player_two'`)
         if (query) {
@@ -51,12 +57,25 @@ io.on('connection', (socket) => {
         else if (query_two) {
             eval(`game_data.ttt.${data.game_id}.game_status = 'game_started'`)
             eval(`game_data.ttt.${data.game_id}.players_go = 0`)
-            io.emit('ttt_game_start', {'game_id':data.game_id})
+            eval(`data_to_send = game_data.ttt.${data.game_id}`)
+            io.emit('ttt_game_play', {'game_data':data_to_send})
         }
     })
+    socket.on('ttt_player_one_move', (data) => {
+        eval(`game_data.ttt.${data.game_data.game_id}.grid[${data.move}] = 'X'`)
+        eval(`game_data.ttt.${data.game_data.game_id}.players_go++`)
+        eval(`data_to_send = game_data.ttt.${data.game_data.game_id}`)
+        io.emit('ttt_game_play', {'game_data':data_to_send})
+    })
+    socket.on('ttt_player_two_move', (data => {
+        eval(`game_data.ttt.${data.game_data.game_id}.grid[${data.move}] = 'O'`)
+        eval(`game_data.ttt.${data.game_data.game_id}.players_go++`)
+        eval(`data_to_send = game_data.ttt.${data.game_data.game_id}`)
+        io.emit('ttt_game_play', {'game_data':data_to_send})
+    }))
   });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 http.listen(PORT, () => {
     console.log(`Our app is running on port ${ PORT }`);
 });
@@ -65,4 +84,4 @@ function print(message) {
     console.log(message)
 }
 
-let game_data = {}
+let game_data = {'ttt':0}
