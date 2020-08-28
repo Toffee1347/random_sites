@@ -43,33 +43,18 @@
     <div class="center">
         <h1 style="color: #337AB7;">Color</h1>
         <input class='btn btn-primary' type="color" id="myColor">
-        <button type="button" class="btn btn-primary" onclick="add_cookie_color(document.getElementById('myColor').value)">Apply</button>
-        <button type="button" class="btn btn-primary" onclick='document.cookie = "bgcolor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; window.location.href = "/options"'>Reset</button>
+        <button type="button" class="btn btn-primary" onclick="add_local_storage_color(document.getElementById('myColor').value)">Apply</button>
+        <button type="button" class="btn btn-primary" onclick='localStorage.removeItem("bgcolor"); window.location.href = "/options";'>Reset</button>
     </div> 
     <script>
-        function add_cookie_color(color) {
-            document.cookie = "bgcolor=" + color + "; path=/; Set-Cookie: flavor=choco; SameSite=Strict;";
+        function add_local_storage_color(color) {
+            localStorage.setItem('bgcolor', color)
             window.location.href = '/options'
         }
-        function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i <ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return false;
-        }
         function onload() {
-            if (getCookie('bgcolor')) {
-                document.body.style.background = getCookie('bgcolor')
-                document.getElementById('myColor').value = getCookie('bgcolor')
+            if (localStorage.getItem('bgcolor')) {
+                document.body.style.background = localStorage.getItem('bgcolor')
+                document.getElementById('myColor').value = localStorage.getItem('bgcolor')
             }
             else {
                 document.getElementById('myColor').value = '#87CEFA'

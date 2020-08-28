@@ -6,15 +6,18 @@ let data_to_send
 
 app.get('*', (req, res) => {
     let file
-    let url = req.url.split('?')
-    if (url[0].endsWith('/index.html')) {
-        file = './public' + url[0]
+    let url = req.url.split('?')[0]
+    if (url.endsWith('/options_script.js')) {
+        file = './public/options_script.js'
     } 
-    else if (url[0].endsWith('/index.html/')) {
-        file = './public' + url[0].substring(0, url[0].length - 1)
+    else if (url.endsWith('/index.html')) {
+        file = './public' + url
+    } 
+    else if (url.endsWith('/index.html/')) {
+        file = './public' + url.substring(0, url.length - 1)
     } 
     else {
-        file = './public' + url[0] + '/index.html'
+        file = './public' + url + '/index.html'
     }
     fs.readFile(file, 'utf8', function(error, data) {
         if (error) {

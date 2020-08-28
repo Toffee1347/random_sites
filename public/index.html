@@ -37,35 +37,21 @@
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
         }
+        .game_jam {
+            margin-left: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body onload="onload()">
-    <div class="center"> 
+    <div class="game_jam">
+        <button type="button" class="btn btn-primary" onclick='document.location.href = "/game_jams"' id="homeBtn">Game Jams</button>
+    </div> 
+    <div class="center">
         <h1 style="color: #337AB7;">Mini Games</h1>
         <button type="button" class="btn btn-primary" onclick='document.location.href = "/games"' id="homeBtn">Play</button>
         <button type="button" class="btn btn-primary" onclick='document.location.href = "/options"' id="homeBtn">Options</button>
-    </div> 
-    <script>
-        function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i <ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return false;
-        }
-        function onload() {
-            if (getCookie('bgcolor')) {
-                document.body.style.background = getCookie('bgcolor')
-            }
-        }
-    </script>
+    </div>
+    <script src=options_script.js></script>
 </body>
 </html>

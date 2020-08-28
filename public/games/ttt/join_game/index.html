@@ -49,28 +49,6 @@
         <input placeholder="Code" type="text" class="input" id="input">
         <button type="button" class="btn btn-primary input" onclick="document.location.href = `http://` + window.location.hostname + `/games/ttt/game?game_id=` + document.getElementById('input').value">Join</button>
     </div> 
-    <script>
-        function onload() {
-            document.getElementById('input').value = ''
-            if (getCookie('bgcolor')) {
-                document.body.style.background = getCookie('bgcolor')
-            }
-        }
-        function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i <ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return false;
-        }
-    </script>
+    <script src=options_script.js></script>
 </body>
 </html>
