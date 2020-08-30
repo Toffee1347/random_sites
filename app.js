@@ -83,8 +83,4 @@ http.listen(PORT, () => {
     console.log(`Our app is running on port ${ PORT }`);
 });
 
-function print(message) {
-    console.log(message)
-}
-
 let game_data = {'ttt':0}
