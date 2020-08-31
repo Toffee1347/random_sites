@@ -6,6 +6,7 @@ let data_to_send
 let file
 
 app.get('*', (req, res) => {
+    console.log(__dirname)
     let file
     let url = req.url.split('?')[0]
     if (url.endsWith('/options_script.js')) {
