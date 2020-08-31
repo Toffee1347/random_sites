@@ -39,7 +39,10 @@ app.get('*', (req, res) => {
             }
             else {
                 file = __dirname + '/public' + url
-                res.download(file)
+                console.log(file);
+                res.download(file, function(err) {
+                    if (err) console.error(err)
+                })
             }
         }
     })
