@@ -42,15 +42,8 @@
 <body onload="onload()">
     <div class="center">
         <h1 style="color: #337AB7;">Game Jams</h1>
-        <iframe id="game" src="https://itch.io/embed/744886?linkback=true&amp;bg_color=87cefa" width="552" height="167" frameborder="0"><a href="https://zigzagzat.itch.io/deal-with-the-devil">Deal with the Devil by ZigZagZat, Toffee1347</a></iframe>
+        <button onclick="document.location.href = '/projects/game_jams/bonfire'" type="button" class="btn btn-primary">Bonfire Jam</button>
     </div>  
-    <script src=options_script.js></script>   
-    <script>
-        function page_onload() {
-            if (localStorage.getItem('bgcolor')) {
-                document.getElementById('game').src = 'https://itch.io/embed/744886?linkback=true&amp;bg_color=' + localStorage.getItem('bgcolor')
-            }
-        }
-    </script>
+    <script src=options_script.js></script>
 </body>
 </html>

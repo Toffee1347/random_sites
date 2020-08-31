@@ -3,6 +3,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var fs = require('fs')
 let data_to_send
+let file
 
 app.get('*', (req, res) => {
     let file
@@ -15,6 +16,9 @@ app.get('*', (req, res) => {
     } 
     else if (url.endsWith('/index.html/')) {
         file = './public' + url.substring(0, url.length - 1)
+    } 
+    else if (url.includes('.')) {
+        file = './public' + url
     } 
     else {
         file = './public' + url + '/index.html'
@@ -29,7 +33,13 @@ app.get('*', (req, res) => {
         }
         else {
             res.statusCode = 200
-            res.send(data);
+            if (file.endsWith('.html') || file.endsWith('.js')) {
+                res.send(data);
+            }
+            else {
+                file = __dirname + '/public' + url
+                res.download(file)
+            }
         }
     })
   });
