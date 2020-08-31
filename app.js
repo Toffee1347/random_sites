@@ -33,14 +33,14 @@ app.get('*', (req, res) => {
         }
         else {
             res.statusCode = 200
-            if (file.endsWith('.html') || file.endsWith('.js')) {
-                res.send(data);
-            }
-            else {
+            if (file.endsWith('.pck') || file.endsWith('.wasm') ||  file.includes('downloads')) {
                 file = __dirname + '/public' + url
                 res.download(file, function(err) {
                     if (err) console.error(err)
-                })
+                })         
+            }
+            else {
+                res.send(data);
             }
         }
     })
