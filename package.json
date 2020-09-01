@@ -17,6 +17,7 @@
     "express": "^4.15.2",
     "fs": "0.0.1-security",
     "http": "0.0.1-security",
+    "jszip": "^3.5.0",
     "socket.io": "^2.3.0"
   },
   "engines": {
