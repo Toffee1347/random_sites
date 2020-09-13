@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+    <body onload="onload()" style="background-color:lightskyblue; padding:40px; font-family: Arial, Helvetica, sans-serif;">
+        <div style="text-align:center; color: black;">
+            <h1>Thanks for your feedback <a id="username">%-%username%-%</a></h1><br>
+            <p>Your feedback was recieved from <a href="https://randomsites.herokuapp.com/">https://randomsites.herokuapp.com/</a> at <a id="usertime">%-%usertime%-%</a>.<br>If this was not you, you can just ignore this email</p>
+            <table style="margin-left: 30%; margin-right: 30%; width: 40%;" class="table table-hover">
+                <tbody>
+                    <tr>
+                        <th style="width: 30%;" scope="row">Name</th>
+                        <td id="tablename">%-%tablename%-%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td id="useremail">%-%useremail%-%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Feedback</th>
+                        <td id="userfeedback">%-%userfeedback%-%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--<script type="text/javascript">
+            const URL_search = new URLSearchParams(window.location.search)
+            const fields = ['username', 'tablename', 'useremail', 'userfeedback', 'usertime']
+
+            function onload() {
+                for (const data of fields) {
+                    eval(`let ${data}`)
+                    eval(`${data} = document.getElementById('${data}')`)
+                    if (data != 'usertime') {
+                        eval(`${data}.innerHTML = atob(URL_search.get(data))`)
+                    }
+                }
+                let time = new Date(parseInt(URL_search.get('usertime'))).toLocaleTimeString("en-US") + ', ' + new Date(parseInt(URL_search.get('usertime'))).toLocaleDateString("en-US")
+                usertime.innerHTML = time
+            }
+        </script>-->
+    </body>
+</html>

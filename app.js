@@ -2,18 +2,42 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var fs = require('fs')
+var btoa = require('btoa')
 let data_to_send
 let file
 let date
+let user_email
+let time
+let test
 let feedback_id
 let id
 let read_file = true
+let nodemailer = require('nodemailer');
+let mail = {
+    transporter: nodemailer.createTransport({
+        service: 'gmail',
+        auth: require('./email.json').gmail
+    }),
+    send_mail: function(reciver = 'example@example.com', subject = 'example_subject', html = 'example_html', iferr = '"example_err_code"') {
+        this.transporter.sendMail({
+            to: reciver,
+            subject: subject,
+            html: html
+          }, function(err) {
+            eval(iferr)
+          })
+    }
+}
+
 
 app.get('*', (req, res) => {
     let url = req.url.split('?')[0]
     if (url.endsWith('/options_script.js')) {
         file = './public/options_script.js'
-    } 
+    }
+    else if (url == '/feedback/json/feedback.json') {
+        file = './public/'
+    }
     else if (req.url.includes('/feedback/id')) {
         id = req.url.replace('/feedback/id', '')
         for (let i in download_codes) {
@@ -23,6 +47,12 @@ app.get('*', (req, res) => {
                 download_codes[i] = null
             }
         }
+    }
+    else if (url.includes('.png')) {
+        file = './public' + url
+        res.type('image/png')
+        read_file = false
+        res.sendFile(__dirname + "/public" + url)
     }
     else if (url.endsWith('/index.html')) {
         file = './public' + url
@@ -126,6 +156,10 @@ io.on('connection', (socket) => {
                 if (err) console.error(err); return;
             })
         })
+        time = new Date(parseInt(feedback_data.time)).toLocaleTimeString("en-US") + ', ' + new Date(parseInt(feedback_data.time)).toLocaleDateString("en-US")
+        user_email = require('./emails').emails.user(feedback_data.name, feedback_data.email, feedback_data.feedback, time)
+        mail.send_mail(feedback_data.email, 'Your feedback was recieved!', user_email + `<br>https://randomsites.herokuapp.com/emails/user?username=${btoa(feedback_data.name)}&tablename=${btoa(feedback_data.name)}&usertime=${feedback_data.time}&useremail=${btoa(feedback_data.email)}&userfeedback=${btoa(feedback_data.feedback)}`)
+        mail.send_mail(require('./email.json').devs, 'Feedback was recieved', require('./emails').emails.devs[0] + feedback_data.name + require('./emails').emails.devs[1])
     })
   });
 
@@ -143,3 +177,5 @@ function generate_code() {
         feedback_id = Math.random().toString(36).substring(7)
     }
 }
+
+// http://localhost/emails/user?username=${btoa(feedback_data.name)}&tablename=${btoa(feedback_data.name)}&usertime=${feedback_data.time}&useremail=${btoa(feedback_data.email)}&userfeedback=${btoa(feedback_data.feedback)}

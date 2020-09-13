@@ -6,5 +6,5 @@ function onload() {
     }
     if (page_onload()) page_onload(color)
     const history_url = document.location.href.split('?')[0]
-    history.pushState(null, null, 'http://www.' + history_url + '/..');
+    history.pushState('back', null, 'http://www.' + history_url + '/..');
 }

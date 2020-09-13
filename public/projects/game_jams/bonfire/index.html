@@ -12,6 +12,8 @@
         body {
             background-color: lightskyblue; 
             font-family: Arial, Helvetica, sans-serif;  
+            margin-left: 30%;
+            margin-right: 30%;
         }
 
         .btn {
@@ -29,43 +31,37 @@
         }
 
         .center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin: 0;
             text-align: center;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            width: 100%;
         }
         h1 {
             color: #337AB7;
         }
+        
     </style>
 </head>
 <body onload="onload()">
-    <table><tr><td>
-        <div class="center">
-            <h1>Bonfire Jam</h1>
-            <div style="text-align: center;">
-                <p>A puzzle-ish platformer game made for the <a href="https://itch.io/jam/bonfirejam">Spellkollektivet Bonfire Jam</a> by <a href="https://itch.io/profile/zigzagzat">ZigZagZat</a> and <a href="https://itch.io/profile/toffee1347">Toffee1347</a>. You must trade your soul with the devil to swap into the body of lost adventurers. You have a limited amount of souls each level, so be careful!&nbsp;Each one has a unique ability that helps you beat the levels. You cannot do it alone. It has short sequence of 8 levels due to time limitations, but may be expanded upon.</p>
-                <p><strong style="color: blue;">AD</strong> - Movement</p>
-                <p><strong style="color: blue;">Space</strong> - Jump</p>
-                <p><strong style="color: blue;">E</strong> - Interact</p>
-                <p><strong style="color: blue;">R</strong> - Restart Level</p><br>
-                <p>Link to the GitHub repo (be warned, the code is not the best):&nbsp;<br><a href="https://github.com/NoahLavelle/BonfireJam">https://github.com/NoahLavelle/BonfireJam<br></a></p>
-            </div>
-            <button class="btn btn-primary" type="button" onclick="document.location.href = '/projects/game_jams/bonfire/game/'">Play!</button>
-            <button class="btn btn-primary" type="button" onclick="document.location.href = 'https://zigzagzat.itch.io/deal-with-the-devil'">Itch.io page</button><br/>
-            <button style="height: auto;" class="btn btn-primary" type="button" onclick="document.location.href = '/downloads/bonfire_win.zip'">Download (Windows)</button>
-            <button style="height: auto;" class="btn btn-primary" type="button" onclick="document.location.href = '/downloads/bonfire_mac.zip'">Download (Mac OSX)</button><br><br>
-            <h1>Feedback</h1>
-            <input id="name" type="text" class="form-control" width="10px" placeholder="Name">
-            <input id="email" type="email" class="form-control" width="200px" placeholder="Email"><br>
-            <textarea class="form-control" rows="5" id="feedback" placeholder="Feedback"></textarea>
-            <button class="btn btn-primary" type="button" onclick="check_fields()">Submit</button>
-            <p id="footer"></p>
-        </div>  
-    </td></tr></table>
+    <div class="center">
+        <h1>Bonfire Jam</h1>
+        <div>
+            <p>A puzzle-ish platformer game made for the <a href="https://itch.io/jam/bonfirejam">Spellkollektivet Bonfire Jam</a> by <a href="https://itch.io/profile/zigzagzat">ZigZagZat</a> and <a href="https://itch.io/profile/toffee1347">Toffee1347</a>. You must trade your soul with the devil to swap into the body of lost adventurers. You have a limited amount of souls each level, so be careful!&nbsp;Each one has a unique ability that helps you beat the levels. You cannot do it alone. It has short sequence of 8 levels due to time limitations, but may be expanded upon.</p>
+            <p><strong style="color: blue;">AD</strong> - Movement</p>
+            <p><strong style="color: blue;">Space</strong> - Jump</p>
+            <p><strong style="color: blue;">E</strong> - Interact</p>
+            <p><strong style="color: blue;">R</strong> - Restart Level</p><br>
+            <p>Link to the GitHub repo (be warned, the code is not the best):&nbsp;<br><a href="https://github.com/NoahLavelle/BonfireJam">https://github.com/NoahLavelle/BonfireJam<br></a></p>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="document.location.href = '/projects/game_jams/bonfire/game/'">Play!</button>
+        <button class="btn btn-primary" type="button" onclick="document.location.href = 'https://zigzagzat.itch.io/deal-with-the-devil'">Itch.io page</button><br/>
+        <button style="height: auto;" class="btn btn-primary" type="button" onclick="document.location.href = '/downloads/bonfire_win.zip'">Download (Windows)</button>
+        <button style="height: auto;" class="btn btn-primary" type="button" onclick="document.location.href = '/downloads/bonfire_mac.zip'">Download (Mac OSX)</button><br><br>
+        <h1>Feedback</h1>
+        <input id="name" type="text" class="form-control" width="10px" placeholder="Name">
+        <input id="email" type="email" class="form-control" width="200px" placeholder="Email"><br>
+        <textarea class="form-control" rows="5" id="feedback" placeholder="Feedback"></textarea>
+        <button class="btn btn-primary" type="button" onclick="check_fields()">Submit</button>
+        <p id="footer"></p>
+    </div>  
     <script src="/socket.io/socket.io.js"></script>
     <script src=options_script.js></script>
     <script>
