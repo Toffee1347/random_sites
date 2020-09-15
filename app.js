@@ -156,9 +156,9 @@ io.on('connection', (socket) => {
                 if (err) console.error(err); return;
             })
         })
-        time = new Date(parseInt(feedback_data.time)).toLocaleTimeString("en-US") + ', ' + new Date(parseInt(feedback_data.time)).toLocaleDateString("en-US")
-        user_email = require('./emails').emails.user(feedback_data.name, feedback_data.email, feedback_data.feedback, time)
-        mail.send_mail(feedback_data.email, 'Your feedback was recieved!', user_email + `<br>https://randomsites.herokuapp.com/emails/user?username=${btoa(feedback_data.name)}&tablename=${btoa(feedback_data.name)}&usertime=${feedback_data.time}&useremail=${btoa(feedback_data.email)}&userfeedback=${btoa(feedback_data.feedback)}`)
+        time = new Date(parseInt(feedback_data.time)).toLocaleTimeString("en-UK") + ', ' + new Date(parseInt(feedback_data.time)).toLocaleDateString("en-US")
+        user_email = require('./emails').emails.user(feedback_data.name, feedback_data.email, feedback_data.feedback, time, feedback_data.entry)
+        mail.send_mail(feedback_data.email, 'Your feedback was recieved!', user_email + `<br>https://randomsites.herokuapp.com/emails/user?username=${btoa(feedback_data.name)}&tablename=${btoa(feedback_data.name)}&usertime=${feedback_data.time}&useremail=${btoa(feedback_data.email)}&userfeedback=${btoa(feedback_data.feedback)}&entry=${btoa(feedback_data.entry)}`)
         mail.send_mail(require('./email.json').devs, 'Feedback was recieved', require('./emails').emails.devs[0] + feedback_data.name + require('./emails').emails.devs[1])
     })
   });

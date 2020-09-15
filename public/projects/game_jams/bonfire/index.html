@@ -86,7 +86,7 @@
                 alert('Please fill in all fields')
                 return;
             }
-            input = {'name':username.value, 'email':email.value, 'feedback':feedback.value}
+            input = {'name':username.value, 'email':email.value, 'feedback':feedback.value, 'entry':'Bonfire Jam'}
             socket.emit('bonfire_jam_feedback', input)
             alert('Thanks for your input!')
             username.value = '';

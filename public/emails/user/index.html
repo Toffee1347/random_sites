@@ -26,12 +26,16 @@
                         <th scope="row">Feedback</th>
                         <td id="userfeedback"></td>
                     </tr>
+                    <tr>
+                        <th scope="row">Entry</th>
+                        <td id="entry"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
         <script type="text/javascript">
             const URL_search = new URLSearchParams(window.location.search)
-            const fields = ['username', 'tablename', 'useremail', 'userfeedback', 'usertime']
+            const fields = ['username', 'tablename', 'useremail', 'userfeedback', 'usertime', 'entry']
 
             function onload() {
                 for (const data of fields) {
