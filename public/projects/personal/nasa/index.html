@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font: 400 15px/1.8 "Lato", sans-serif;
+            color: #777;
+        }
+        .bgimg-1, .bgimg-2, .bgimg-3 {
+            position: relative;
+            opacity: 1;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .bgimg-1 {
+            background-image: url("./../../assets/images/back_1.png");
+            min-height: 100%;
+        }
+        .caption {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+        .caption span.border {
+            background-color: #111;
+            color: #fff;
+            padding: 18px;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body onload="onload()">
+    <div class="bgimg-1">
+        <div class="caption">
+            <span class="border">Explore</span>
+        </div>
+    </div>
+    <div style="color: #777;background-color:white;text-align:center;text-align: justify;">
+        <h3 style="text-align:center;">Astronomy Picture of the Day</h3>
+        <div style="padding-left: 20%; padding-right: 20%;">
+            <table><tr>
+                <td style="width: 50%;">
+                    <div>           
+                        <img id="APOD-img" style="width: 100%; height: auto;">
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div style="padding: 10px">
+                        <b>Title - </b><a id="APOD-title"></a><br>
+                        <b>Date - </b><a id="APOD-date"></a><br>
+                        <b>Info - </b><a id="APOD-info"></a><br>
+                        <b>©<a id="APOD-copyright"></a></b>
+                    </div>
+                </td>
+            </tr></table>
+        </div>    
+    </div>
+    <script>
+        const apod_data = [
+            ['APOD-img', 'src', 'hdurl'],
+            ['APOD-title', 'innerHTML', 'title'],
+            ['APOD-date', 'innerHTML', 'date'],
+            ['APOD-info', 'innerHTML', 'explanation'],
+            ['APOD-copyright', 'innerHTML', 'copyright']
+        ]
+        const api_keys = {
+            'nasa' : 'UIg6Va7s0Z4xwEfcRU3aalXVI3ouKX6WdKJt7qQg'
+        }
+        function onload() {
+            fetch('https://api.nasa.gov/planetary/apod?api_key=' + api_keys.nasa)
+            .then(Response => Response.json())
+            .then(data => show_data_apod(data))
+        }
+        function show_data_apod(data) {
+            for (const array_data of apod_data) {
+                let command = `document.getElementById('${array_data[0]}').${array_data[1]} = data.${array_data[2]}`
+                eval(command)
+            }     
+        }  
+    </script>
+</body>
+</html>
