@@ -50,6 +50,16 @@
             text-align: justify;
             padding: 30px;
         }
+        .padding {
+            padding-left: 20%;
+            padding-right: 20%;
+        }
+        @media screen and (max-width: 992px) {
+            .padding {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+        }
     </style>
 </head>
 <body onload="onload()">
@@ -62,13 +72,13 @@
     </div>
     <div class="content container-fluid" id="apod">
         <h3 style="text-align:center;">Astronomy Picture of the Day</h3>
-        <div style="padding-left: 20%; padding-right: 20%;" class="row">
-            <div class="col-md-6">
+        <div class="row padding">
+            <div class="col-lg-6">
                 <table><tr><td>
                     <img id="APOD-img" style="width: 100%; height: auto; margin-top: 5%;">
                 </td></tr></table>
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-6">
                 <div style="padding: 10px">
                     <b>Title - </b><a id="APOD-title"></a><br>
                     <b>Date - </b><a id="APOD-date"></a><br>
@@ -78,12 +88,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12" style="text-align: center; padding-bottom: 30px;">
+            <div class="col-lg-12" style="text-align: center; padding-bottom: 30px;">
                 <a id="APOD-date_input_text"></a>
             </div>
         </div>  
         <div class="row">
-            <div style="text-align: center;" class="col-md-12">
+            <div style="text-align: center;" class="col-lg-12">
                 <input style="height: 100%;" type="date" id="APOD-date_input" min="1995-06-16">
                 <button style="height: 100%;" class="btn-primary" type="submit" onclick="APOD_check_date()">Get picture</button>
             </div>
