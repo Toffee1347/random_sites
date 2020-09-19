@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body, html {
             height: 100%;
             margin: 0;
             font: 400 15px/1.8 "Lato", sans-serif;
             color: #777;
+            scroll-behavior: smooth;
         }
         .bgimg-1, .bgimg-2, .bgimg-3 {
             position: relative;
@@ -30,44 +34,65 @@
             width: 100%;
             text-align: center;
             color: #000;
+            border: 0px;
         }
         .caption span.border {
             background-color: #111;
+            border: 0px;
             color: #fff;
             padding: 18px;
             font-size: 25px;
         }
+        .content {
+            color: #777;
+            background-color:white;
+            text-align:center;
+            text-align: justify;
+            padding: 30px;
+        }
     </style>
 </head>
 <body onload="onload()">
-    <div class="bgimg-1">
-        <div class="caption">
-            <span class="border">Explore</span>
-        </div>
+    <div class="bgimg-1" id="home">
+        <a href="#apod">
+            <div class="caption">
+                <span class="border">Explore</span>
+            </div>
+        </a>
     </div>
-    <div style="color: #777;background-color:white;text-align:center;text-align: justify;">
+    <div class="content container-fluid" id="apod">
         <h3 style="text-align:center;">Astronomy Picture of the Day</h3>
-        <div style="padding-left: 20%; padding-right: 20%;">
-            <table><tr>
-                <td style="width: 50%;">
-                    <div>           
-                        <img id="APOD-img" style="width: 100%; height: auto;">
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div style="padding: 10px">
-                        <b>Title - </b><a id="APOD-title"></a><br>
-                        <b>Date - </b><a id="APOD-date"></a><br>
-                        <b>Info - </b><a id="APOD-info"></a><br>
-                        <b>©<a id="APOD-copyright"></a></b>
-                    </div>
-                </td>
-            </tr></table>
-        </div>    
+        <div style="padding-left: 20%; padding-right: 20%;" class="row">
+            <div class="col-md-6">
+                <table><tr><td>
+                    <img id="APOD-img" style="width: 100%; height: auto; margin-top: 5%;">
+                </td></tr></table>
+            </div>
+            <div class="col-md-6">
+                <div style="padding: 10px">
+                    <b>Title - </b><a id="APOD-title"></a><br>
+                    <b>Date - </b><a id="APOD-date"></a><br>
+                    <b>Info - </b><a id="APOD-info"></a><br>
+                    <b>©<a id="APOD-copyright"></a></b>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="text-align: center; padding-bottom: 30px;">
+                <a id="APOD-date_input_text"></a>
+            </div>
+        </div>  
+        <div class="row">
+            <div style="text-align: center;" class="col-md-12">
+                <input style="height: 100%;" type="date" id="APOD-date_input" min="1995-06-16">
+                <button style="height: 100%;" class="btn-primary" type="submit" onclick="APOD_check_date()">Get picture</button>
+            </div>
+        </div>  
     </div>
     <script>
+        const date = new Date()
         const apod_data = [
-            ['APOD-img', 'src', 'hdurl'],
+            ['APOD-img', 'src', 'url'],
             ['APOD-title', 'innerHTML', 'title'],
             ['APOD-date', 'innerHTML', 'date'],
             ['APOD-info', 'innerHTML', 'explanation'],
@@ -77,6 +102,8 @@
             'nasa' : 'UIg6Va7s0Z4xwEfcRU3aalXVI3ouKX6WdKJt7qQg'
         }
         function onload() {
+            document.getElementById('APOD-date_input').value = ''
+            document.getElementById('APOD-date_input').max = get_date('')
             fetch('https://api.nasa.gov/planetary/apod?api_key=' + api_keys.nasa)
             .then(Response => Response.json())
             .then(data => show_data_apod(data))
@@ -87,6 +114,63 @@
                 eval(command)
             }     
         }  
+        function get_date(query = false || 'year' || 'month' || 'day') {
+            let year = String(date.getFullYear())
+            let month = String(date.getMonth() + 1)
+            let day = String(date.getDate())
+            if (month.length = 1) {
+                month = String('0' + month)
+            }
+            if (!query) return `${year}-${month}-${day}`
+            if (query === 'year') return `${year}`
+            if (query === 'month') return `${month}`
+            if (query === 'day') return `${day}`
+        }
+        function APOD_check_date() {
+            let times = {
+                'min': {
+                    'year':1995,
+                    'month':06,
+                    'day':16
+                },
+                'max': {
+                    'year':parseInt(get_date('year')),
+                    'month':parseInt(get_date('month')),
+                    'day':parseInt(get_date('day'))
+                }
+            };
+            let wrong_date = false;
+            let value = String(document.getElementById('APOD-date_input').value).split('-')
+            times.input = {
+                    'year':parseInt(value[0]),
+                    'month':parseInt(value[1]),
+                    'day':parseInt(value[2])
+            }
+            if (times.input.year < times.min.year || times.input.year > times.max.year) wrong_date = true
+            else if (times.input.year === 1995) {
+                if (times.min.month > times.input.month) wrong_date = true
+                else if (times.input.month === times.min.month) {
+                    if (times.min.day > times.input.day) wrong_date = true
+                }
+            }
+            else if (times.input.year === times.max.year) {
+                if (times.max.month < times.input.month) wrong_date = true
+                else if (times.input.month === times.max.month) {
+                    if (times.max.day < times.input.day) wrong_date = true
+                }
+            }
+            if (wrong_date) {
+                document.getElementById('APOD-date_input_text').innerHTML = `Please enter a valid date between 1995/06/16 and ${get_date('').replace('-', '/').replace('-', '/')}`
+                setTimeout(function() {
+                    document.getElementById('APOD-date_input_text').innerHTML = ''
+                }, 5000)
+            }
+            else {
+                fetch('https://api.nasa.gov/planetary/apod?date=' + document.getElementById('APOD-date_input').value + '&api_key=' + api_keys.nasa)
+                .then(Response => Response.json())
+                .then(data => show_data_apod(data)) 
+            }
+        }
     </script>
 </body>
 </html>
