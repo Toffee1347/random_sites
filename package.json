@@ -21,6 +21,7 @@
     "http": "0.0.1-security",
     "jszip": "^3.5.0",
     "nodemailer": "^6.4.11",
+    "rgb-hex": "^3.0.0",
     "socket.io": "^2.3.0"
   },
   "engines": {

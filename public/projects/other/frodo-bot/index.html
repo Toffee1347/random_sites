@@ -3,68 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Games</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        body {
-            background-color: lightskyblue; 
-            font-family: Arial, Helvetica, sans-serif;  
-        }
-
-        .btn {
-            color: lightskyblue;
-            border: none;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            width: 200px;  
-            height: 50px;  
-            margin: 10px;
-        }
-
-        .center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+        body, html {
+            height: 100%;
             margin: 0;
-            text-align: center;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            font: 400 15px/1.8 "Lato", sans-serif;
+            color: #777;
+            scroll-behavior: smooth;
         }
-        h1 {
-            color: #337AB7;
+        .bgimg-1, .bgimg-2, .bgimg-3 {
+            position: relative;
+            opacity: 1;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .bgimg-1 {
+            min-height: 100%;
+        }
+        .caption {
+            position: absolute;
+            left: 0;
+            top: 30%;
+            width: 100%;
+            text-align: center;
+            color: #000;
+            border: 0px;
+        }
+        .caption .caption-box {
+            border: 0px;
+            color: #fff;
+            padding: 18px;
+            font-size: 75px;
+        }
+        span {
+            border: 0px;
+        }
+        .content {
+            color: #777;
+            background-color:white;
+            text-align:center;
+            text-align: justify;
+            padding: 30px;
+        }
+        .padding {
+            padding-left: 20%;
+            padding-right: 20%;
+        }
+        .img {
+            width: 20%;
+            height: auto;
+        }
+        @media screen and (max-width: 992px) {
+            .padding {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+        }
+        @media screen and (max-width: 1500px) {
+            .img {
+                width: 50%;
+            }
         }
     </style>
 </head>
 <body onload="onload()">
-    <div class="center">
-        <h1>Frodo - Discord bot</h1>
-        <div style="text-align: center;">
-            <p>
-                There are many bots out there that can do games, but this one aimes to bring them all together. It is currently being worked on by Daniel Howard and Noah Lavelle for fun and to develop skills. It is being constantly updated and will soon have features like minigames - RPS, TTT, number games etc, and a more advanced party system for server-wide games like Werewolves. We also intend to create an economy based game.
-                Features  <br>            
-                The bot currently has quite a few games. The full list currently is 
-                <ul>              
-                    <li>Connect 4</li>
-                    <li>Akinator</li>
-                    <li>Hangman</li>
-                    <li>Rock Paper Scissors</li>
-                    <li>Trivia</li>
-                    <li>Tick Tack Toe</li>
-                    <li>Countdown style anagrams</li>
-                    <li>Chase the Ace - Almost completed</li>
-                </ul>
-                All of these are within the discord chat and are quite polished. The current major games in development is Wearwolves and a set of card games. The bot does not only provide games though. There are also many different simple text commands like joke, fact, fortune, insult and most importantly, chucknorris. The bot also has per server configs for things like prefixes and also full server backups! This covers rolls, settings, channels and even messages!
-                
-        </div>
-        <button class="btn btn-primary" type="button" onclick="document.location.href = 'https://discord.com/api/oauth2/authorize?client_id=734746193082581084&permissions=268691536&scope=bot'">Invite</button>
-    </div>  
-    <script src=options_script.js></script>
+    <div class="bgimg-1" id="home">
+        <a href="#overview">
+            <div class="caption">
+                    <img class="img" src="https://camo.githubusercontent.com/b92d4a1a2f0299fe2d6a40c1c026ca2ec693313b/68747470733a2f2f692e696d6775722e636f6d2f565a53713271722e706e67"><br>
+                    <span class="caption-box"><b>Frodo</b></span>          
+            </div>
+        </a>
+    </div>
+    <div id="overview" class="content" style="text-align: center;">
+        <h1>Frodo Discord bot!</h1>
+        <a href="https://discord.com/api/oauth2/authorize?client_id=734746193082581084&permissions=268691536&scope=bot"><button type="button" class="btn-primary">Invite me!</button></a>
+    </div>
+    <script>
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+
+        function rgbToHex(col) {
+            return componentToHex(col) + componentToHex(col) + componentToHex(col);
+        }
+        function onload() {
+            const noise_color = (Math.floor(Math.random() * 50)) + 50
+            const ran_col = rgbToHex(Math.floor(Math.random() * 150))
+            const back_url = 'http://api.thumbr.it/whitenoise-' + screen.width + 'x' + screen.height + '.png?background=' + ran_col + 'ff&noise=626262&density=' + noise_color + '&opacity=15'
+            $('.bgimg-1').css('background-image', 'url(' + back_url + ')')
+        }
+    </script>
 </body>
 </html>
