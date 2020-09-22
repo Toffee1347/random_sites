@@ -95,9 +95,9 @@
             return componentToHex(col) + componentToHex(col) + componentToHex(col);
         }
         function onload() {
-            const noise_color = (Math.floor(Math.random() * 50)) + 50
+            const noise_color = Math.floor(Math.random() * 100)
             const ran_col = rgbToHex(Math.floor(Math.random() * 150))
-            const back_url = 'http://api.thumbr.it/whitenoise-' + screen.width + 'x' + screen.height + '.png?background=' + ran_col + 'ff&noise=626262&density=' + noise_color + '&opacity=15'
+            const back_url = 'http://api.thumbr.it/whitenoise-' + screen.width + 'x' + screen.height + '.png?background=' + ran_col + 'ff&noise=626262&density=' + noise_color + '&opacity=45'
             $('.bgimg-1').css('background-image', 'url(' + back_url + ')')
         }
     </script>
